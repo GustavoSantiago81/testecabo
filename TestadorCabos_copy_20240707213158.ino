@@ -52,14 +52,14 @@ void checkCL()
     Serial.println("entrou no loop de canais");
     Serial.println("CANAL ATUAL: " + String(i));
     digitalWrite(ports[i], HIGH);
-    delay(100);
+    delay(10);
     Serial.println("canal cor: " + String(ports[i]));
     if(ports[i] == canalBranco)
     {
       for(int i = 0; i < 9; i++)
       {
         Serial.println("pino atual: " + String(i));
-        delay(100);
+
         if(digitalRead(db9[i]) == HIGH)
         {
           brancoIsOkay = false;
@@ -83,7 +83,6 @@ void checkCL()
       for(int i = 0; i < 9; i++)
       {
         Serial.println("pino atual: " + String(i));
-        delay(100);
         if(digitalRead(db9[i]) == HIGH)
         {
           pretoIsOkay = false;
@@ -104,11 +103,9 @@ void checkCL()
     {
       for(int i = 0; i < 9; i++)
       {
-        delay(100);
         if(digitalRead(db9[i]) == HIGH)
         {
           verdeIsOkay = false;
-          delay(100);
           if(digitalRead(db9[2 - 1]) == HIGH || digitalRead(db9[4 - 1]) == HIGH || digitalRead(db9[8 - 1]) == HIGH)
             countVerde++;
         }
@@ -124,7 +121,6 @@ void checkCL()
     {
       for(int i = 0; i < 9; i++)
       {
-        delay(100);
         if(digitalRead(db9[i]) == HIGH)
         {
           vermelhoIsOkay = false;
@@ -162,22 +158,20 @@ void checkCL()
     digitalWrite(buzzer, HIGH);
     delay(200);
     digitalWrite(buzzer, LOW);
-    delay(200);
+    delay(100);
     digitalWrite(buzzer, HIGH);
     delay(200);
     digitalWrite(buzzer, LOW);
-    delay(200);
   }
   else
   {
     digitalWrite(buzzer, HIGH);
-    delay(1000);
-    digitalWrite(buzzer, LOW);
-    delay(400);
-    digitalWrite(buzzer, HIGH);
-    delay(1000);
+    delay(1500);
     digitalWrite(buzzer, LOW);
     delay(200);
+    digitalWrite(buzzer, HIGH);
+    delay(1500);
+    digitalWrite(buzzer, LOW);
   }
   brancoIsOkay=false;pretoIsOkay=false;verdeIsOkay=false;vermelhoIsOkay=false;
   countBranco=0;countPreto=0;countVerde=0;countVermelho=0;
@@ -278,22 +272,16 @@ void checkCM()
     digitalWrite(buzzer, HIGH);
     delay(200);
     digitalWrite(buzzer, LOW);
-    delay(200);
+    delay(100);
     digitalWrite(buzzer, HIGH);
     delay(200);
     digitalWrite(buzzer, LOW);
-    delay(200);
   }
   else
   {
     digitalWrite(buzzer, HIGH);
-    delay(1000);
+    delay(1500);
     digitalWrite(buzzer, LOW);
-    delay(400);
-    digitalWrite(buzzer, HIGH);
-    delay(1000);
-    digitalWrite(buzzer, LOW);
-    delay(200);
   }
   brancoIsOkay=false;pretoIsOkay=false;verdeIsOkay=false;vermelhoIsOkay=false;
   countBranco=0;countPreto=0;countVerde=0;countVermelho=0;
