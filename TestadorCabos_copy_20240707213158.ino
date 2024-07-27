@@ -8,7 +8,7 @@
 #define but_cl 2
 #define but_cm 1
 
-char db9[] = {47, 48, 45, 0, 35, 21, 20, 37, 36};                                   // 9 pinos, quais estão na ordem do Pino 1 ao Pino 9
+char db9[] = {47, 48, 45, 0, 35, 21, 20, 36, 37};                                   // 9 pinos, quais estão na ordem do Pino 1 ao Pino 9
 //char ports[4] = {38, 39, 40, 41};
 char ports[4] = {canalBranco, canalPreto, canalVerde, canalVermelho};               // 4 vias, nesse caso
 bool brancoIsOkay = false, pretoIsOkay = false, verdeIsOkay = false, vermelhoIsOkay = false;
@@ -46,44 +46,54 @@ void loop()
 
 void checkCL()
 {
+  Serial.println("iniciou função CL");
   for(int i = 0; i < 4; i++)
   {
+    Serial.println("entrou no loop de canais");
+    Serial.println("CANAL ATUAL: " + String(i));
     digitalWrite(ports[i], HIGH);
     delay(100);
+    Serial.println("canal cor: " + String(ports[i]));
     if(ports[i] == canalBranco)
     {
       for(int i = 0; i < 9; i++)
       {
+        Serial.println("pino atual: " + String(i));
         delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           brancoIsOkay = false;
 
           if(digitalRead(db9[6 - 1]) == HIGH || digitalRead(db9[9 - 1]) == HIGH)
             countBranco++;
+            Serial.println("incrementou count branco");
         }
       }
-
+      Serial.println("countBranco = " + String(countBranco));
       if(countBranco == 2)
       {
         brancoIsOkay = true;
       }
+      Serial.println(String(brancoIsOkay));
     }
 
     if(ports[i] == canalPreto)
     {
+      Serial.println("entrou no canalPreto");
       for(int i = 0; i < 9; i++)
       {
+        Serial.println("pino atual: " + String(i));
         delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           pretoIsOkay = false;
 
           if(digitalRead(db9[5 - 1]) == HIGH || digitalRead(db9[3 - 1]) == HIGH)
             countPreto++;
+            Serial.println("incrementou countPreto");
         }
       }
-
+      Serial.println("countPreto = " + String(countPreto));
       if(countPreto == 2)
       {
         pretoIsOkay = true;
@@ -95,7 +105,7 @@ void checkCL()
       for(int i = 0; i < 9; i++)
       {
         delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           verdeIsOkay = false;
           delay(100);
@@ -115,7 +125,7 @@ void checkCL()
       for(int i = 0; i < 9; i++)
       {
         delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           vermelhoIsOkay = false;
 
@@ -131,7 +141,22 @@ void checkCL()
     }
     digitalWrite(ports[i], LOW);
   }
-  
+  if(brancoIsOkay)
+  {
+    Serial.println("branco ok");
+  }
+  if(pretoIsOkay)
+  {
+    Serial.println("preto ok");
+  }
+  if(verdeIsOkay)
+  {
+    Serial.println("verde ok");
+  }
+  if(vermelhoIsOkay)
+  {
+    Serial.println("vermelho ok");
+  }
   if(brancoIsOkay&&pretoIsOkay&&verdeIsOkay&&vermelhoIsOkay)
   {
     digitalWrite(buzzer, HIGH);
