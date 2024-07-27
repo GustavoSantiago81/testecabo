@@ -8,10 +8,9 @@
 #define but_cl 2
 #define but_cm 1
 
-char db9[] = {47, 48, 45, 0, 35, 21, 20, 36, 37};                                   // 9 pinos, quais estão na ordem do Pino 1 ao Pino 9
-//char ports[4] = {38, 39, 40, 41};
-char ports[4] = {canalBranco, canalPreto, canalVerde, canalVermelho};               // 4 vias, nesse caso
-bool brancoIsOkay = false, pretoIsOkay = false, verdeIsOkay = false, vermelhoIsOkay = false;
+char db9[] = {47, 48, 45, 0, 35, 21, 20, 36, 37};                                                   // 9 pinos, quais estão na ordem do Pino 1 ao Pino 9
+char ports[] = {canalBranco, canalPreto, canalVerde, canalVermelho};                                // 4 vias, nesse caso
+bool brancoIsOkay = false, pretoIsOkay = false, verdeIsOkay = false, vermelhoIsOkay = false;        
 int countBranco = 0, countPreto = 0, countVerde = 0, countVermelho = 0;
 
 void setup() {
@@ -21,7 +20,7 @@ void setup() {
   // Configurando os pinos de entrada
   for (int i = 0; i < 9; i++) 
   {
-    pinMode(db9[i], INPUT);
+    pinMode(db9[i], INPUT_PULLDOWN);
   }
 
   // Configurando os pinos de saída
@@ -44,6 +43,7 @@ void loop()
   }
 }
 
+/* CARDIOLIGHT  */
 void checkCL()
 {
   Serial.println("iniciou função CL");
@@ -53,7 +53,8 @@ void checkCL()
     Serial.println("CANAL ATUAL: " + String(i));
     digitalWrite(ports[i], HIGH);
     delay(10);
-    Serial.println("canal cor: " + String(ports[i]));
+    Serial.println("canal cor: ");
+    Serial.println(ports[i]);
     if(ports[i] == canalBranco)
     {
       for(int i = 0; i < 9; i++)
@@ -184,13 +185,11 @@ void checkCM()
   for(int i = 0; i < 4; i++)
   {
     digitalWrite(ports[i], HIGH);
-    delay(100);
     if(ports[i] == canalBranco)
     {
       for(int i = 0; i < 7; i++)
       {
-        delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           brancoIsOkay = false;
 
@@ -209,8 +208,7 @@ void checkCM()
     {
       for(int i = 0; i < 7; i++)
       {
-        delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           pretoIsOkay = false;
 
@@ -229,11 +227,10 @@ void checkCM()
     {
       for(int i = 0; i < 7; i++)
       {
-        delay(100);
-        if(digitalRead(db9[i] == HIGH))
+        if(digitalRead(db9[i]) == HIGH)
         {
           verdeIsOkay = false;
-          delay(100);
+
           if(digitalRead(db9[7 - 1]) == HIGH)
             countVerde++;
         }
@@ -249,7 +246,6 @@ void checkCM()
     {
       for(int i = 0; i < 7; i++)
       {
-        delay(100);
         if(digitalRead(db9[i] == HIGH))
         {
           vermelhoIsOkay = false;
